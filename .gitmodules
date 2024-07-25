@@ -1,0 +1,3 @@
+[submodule "SakuraEngine/vendor/GLFW"]
+	path = SakuraEngine/vendor/GLFW
+	url = https://github.com/Frollo24/GLFW

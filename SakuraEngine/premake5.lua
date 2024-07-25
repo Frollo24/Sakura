@@ -14,7 +14,8 @@ project "SakuraEngine"
 
 	includedirs
 	{
-		"src"
+		"src",
+		"%{IncludeDir.GLFW}"
 	}
 
 	filter "system:windows"
