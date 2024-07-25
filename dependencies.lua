@@ -1,2 +1,2 @@
 IncludeDir = {}
-IncludeDir["GLFW"] = "%{wks.location}/MagmaEngine/vendor/GLFW/include"
+IncludeDir["GLFW"] = "%{wks.location}/SakuraEngine/vendor/GLFW/include"

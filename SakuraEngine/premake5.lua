@@ -18,6 +18,11 @@ project "SakuraEngine"
 		"%{IncludeDir.GLFW}"
 	}
 
+	links
+	{
+		"GLFW"
+	}
+
 	filter "system:windows"
 		staticruntime "On"
 		systemversion "latest"
