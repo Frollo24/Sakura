@@ -12,6 +12,12 @@ project "SakuraSandbox"
 		"src/**.cpp"
 	}
 
+	includedirs
+	{
+		"src/",
+		"%{wks.location}/SakuraEngine/src/"
+	}
+
 	links
 	{
 		"SakuraEngine"
