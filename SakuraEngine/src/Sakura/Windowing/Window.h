@@ -3,6 +3,8 @@
 #include <string>
 #include <stdint.h>
 
+#include "Sakura/Render/RenderInstance.h"
+
 struct GLFWwindow;
 
 namespace Sakura
@@ -22,6 +24,8 @@ namespace Sakura
 
 		void OnUpdate();
 
+		void SetVSync(bool enabled);
+
 		inline GLFWwindow* GetNativeWindow() const { return m_NativeWindow; }
 
 		// HACK: This should be treated by the Event System
@@ -29,7 +33,11 @@ namespace Sakura
 
 	private:
 		WindowProps m_WindowProps{};
+		bool m_VSync = false; // HACK: Should create a WindowData struct
+
 		GLFWwindow* m_NativeWindow = nullptr;
+
+		RenderInstance* m_RenderInstance = nullptr;
 	};
 }
 

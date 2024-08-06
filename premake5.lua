@@ -16,6 +16,7 @@ outputintdir = "Build/Intermediates/%{cfg.buildcfg}-%{cfg.architecture}"
 
 group "Dependencies"
 	include "SakuraEngine/vendor/GLFW"
+	include "SakuraEngine/vendor/Glad"
 group ""
 
 include "SakuraEngine"
