@@ -1,96 +1,90 @@
 #pragma once
 
-#include <list>
+#include <vector>
+#include <utility>
 
 namespace Sakura
 {
-	template <typename R, typename ... args>
-	class Delegate
+	/**/
+	template <typename Signature>
+	class Delegate;
+	template <typename ... Args>
+	class Delegate<void(Args ... args)>	// Son voids aunque se pueda hacer con valores porque no hay caso en el que quieras valores y dan algún problema
 	{
 	private:
-		
 
-		// subclasses for have *functions and *memberFunctions/Mehtods
-
-		template <typename R, typename ... args>
-		class FuncCall
+		struct Base
 		{
-		public:
-			FuncCall() = default;
-			~FuncCall() = default;
-
-			virtual R Call(args...) = 0;
+			virtual ~Base() {}
+			virtual bool IsThisType(Base* other) = 0;
+			virtual void DoCall(Args ... args) = 0;
 		};
-		
 
-		class FuncPointer : FuncCall<R, args...>
+		template <typename funcPointer>
+		struct Call : Base
 		{
-		public:
-			FuncPointer() = default;
-			~FuncPointer() = default;
+			funcPointer callBack;
+			template <typename C>
+			Call(C&& callBack) : callBack(std::forward<C>(callBack)) {}	// le damos al constructor el puntero a función tal cual este
 
-			R Call(args...) override
+			bool IsThisType(Base* other) 
 			{
-				m_funcPointer(args);
+				Call<funcPointer>* temp = dynamic_cast<Call<funcPointer>*>(other);
+				return (temp && this->callBack == temp->callBack);	// Devuelve true si los dos callbacks son iguales, en caso contrario false
 			}
-		private:
-			R(*m_funcPointer) (args...);
-		};
 
-		template <typename C>
-		class MethodPointer : FuncCall<R, args...>
-		{
-		public:
-			MethodPointer() = default;
-			~MethodPointer() = default;
-
-			R Call(args...) override
+			void DoCall(Args ... args)
 			{
-				m_methodPointer(args...);
+				this->callBack(std::forward<Args>(args)...);
 			}
-		private:
-			R(C::* m_methodPointer) (args...);
 
-			C* m_obj;
 		};
 
-		std::list<FuncCall<R, args...>> m_observers;
+		std::vector<Base*> m_functionPointers;
+
+		Delegate(const Delegate&) = delete;
+		void operator=(const Delegate&) = delete;
+		// Se borran para evitar problemas con copuias de delegates porque para empezar no tienen sentido
 
 	public:
-		Delegate() 
+
+		Delegate() = default;
+
+		template <typename funcPointer>
+		Delegate& operator+=(funcPointer&& func)
 		{
-			m_observers = new std::list<FuncCall<R, args...>>();
+			m_functionPointers.push_back(new Call<funcPointer>(std::forward<funcPointer>(func)));
+			return *this;
 		}
 
-		~Delegate() = default;
-
-		template <typename R, typename ... args>
-		R Invoke(args...)
+		template <typename funcPointer>
+		Delegate& operator-=(funcPointer&& func)
 		{
-			for (FuncCall call : m_observers)
+			bool stop = false;
+			Call<funcPointer> temp(std::forward<funcPointer>(func));
+			for (int i = 0; i < m_functionPointers.size() && !stop; i++)
 			{
-				call->Call(args...);
-			}
-		}
-
-		void operator += (FuncCall<R, args...> func)
-		{
-			m_observers.push_back(func);
-		}
-		void operator -= (FuncCall<R, args...> func)
-		{
-			for (int i = 0; i < m_observers.size; i++)
-			{
-				if (m_observers[i] == func)
+				if (temp.IsThisType(m_functionPointers[i]))
 				{
-					m_observers.erase(i);
-					return;
+					m_functionPointers.erase(m_functionPointers.begin() + i);
+					stop = true;
 				}
 			}
+			return *this;
 		}
 
-	
-
+		void Invoke(Args ... args)
+		{
+			for (auto& func : m_functionPointers)
+			{
+				func->DoCall(args...);
+			}
+		}
 
 	};
+
+
+	//*/
+
+
 }
