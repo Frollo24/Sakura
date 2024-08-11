@@ -84,6 +84,42 @@ namespace Sakura
 	};
 
 
+	template <typename RC, typename Class, typename ... Args>
+	class MemberCall
+	{
+	private:
+		Class* m_objectInstance;
+		RC(Class::* m_memberFuncPointer)(Args ...);
+
+	public:
+		MemberCall(Class* object, RC(Class::* memberFunc)(Args ...)) : m_objectInstance(object), m_memberFuncPointer(memberFunc) {}
+
+		RC operator()(Args ... args)
+		{
+			return (this->m_objectInstance->*this->m_memberFuncPointer)(std::forward<Args>(args)...);
+		}
+
+		bool operator==(const MemberCall& other)
+		{
+			return (this->m_objectInstance == other.m_objectInstance &&
+				this->m_memberFuncPointer == other.m_memberFuncPointer);
+		}
+
+		bool operator!=(const MemberCall& other)
+		{
+			return !(*this == other);
+		}
+	};
+
+
+	// Azucar sintactico para no tener que escribir en las subscripciones el <> con sus valores
+	template <typename RC, typename Class, typename ... Args>
+	MemberCall<RC, Class, Args ...> MethodCall(Class& object, RC(Class::* memberFunc)(Args ...))
+	{
+		return MemberCall<RC, Class, Args ...>(&object, memberFunc);
+	}
+
+
 	//*/
 
 
