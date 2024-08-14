@@ -2,6 +2,7 @@
 
 // Core elements
 #include "Sakura/Core/Application.h"
+#include "Sakura/Core/Log.h"
 
 // Entry Point
 #ifdef SAKURA_ENTRY_POINT

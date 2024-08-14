@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Sakura/Core/Log.h"
 #include "Sakura/Events/Event.h"
 #include "Sakura/Events/WindowEvent.h"
 #include "Sakura/Windowing/WindowSystem.h"

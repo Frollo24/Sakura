@@ -1,3 +1,6 @@
 [submodule "SakuraEngine/vendor/GLFW"]
 	path = SakuraEngine/vendor/GLFW
 	url = https://github.com/Frollo24/GLFW
+[submodule "SakuraEngine/vendor/spdlog"]
+	path = SakuraEngine/vendor/spdlog
+	url = https://github.com/gabime/spdlog

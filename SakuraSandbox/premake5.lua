@@ -15,7 +15,8 @@ project "SakuraSandbox"
 	includedirs
 	{
 		"src/",
-		"%{wks.location}/SakuraEngine/src/"
+		"%{wks.location}/SakuraEngine/src/",
+		"%{wks.location}/SakuraEngine/vendor/spdlog/include"
 	}
 
 	links

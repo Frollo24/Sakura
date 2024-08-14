@@ -14,12 +14,12 @@ namespace Sakura
 		glfwTerminate();
 	}
 
-	Window* WindowSystem::CreateWindow(const WindowProps& props)
+	Window* WindowSystem::Create(const WindowProps& props)
 	{
 		return new Window(props);
 	}
 
-	void WindowSystem::DestroyWindow(Window* window)
+	void WindowSystem::Destroy(Window* window)
 	{
 		delete window;
 	}

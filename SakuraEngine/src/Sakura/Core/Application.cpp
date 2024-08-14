@@ -7,13 +7,13 @@ namespace Sakura
 	Application::Application()
 	{
 		WindowSystem::Init();
-		m_Window = WindowSystem::CreateWindow();
+		m_Window = WindowSystem::Create();
 		m_Window->SetEventCallback(SKR_BIND_EVENT_FN(OnEvent));
 	}
 
 	Application::~Application()
 	{
-		WindowSystem::DestroyWindow(m_Window);
+		WindowSystem::Destroy(m_Window);
 		WindowSystem::Shutdown();
 	}
 
@@ -27,7 +27,8 @@ namespace Sakura
 
 	void Application::OnEvent(Event& e)
 	{
-		std::cout << e.ToString() << std::endl;
+		//SKR_CORE_TRACE("{0}", e);
+		Log::GetCoreLogger()->trace("{0}", e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(SKR_BIND_EVENT_FN(OnWindowClose));
