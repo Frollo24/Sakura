@@ -15,18 +15,25 @@ project "SakuraEngine"
 	includedirs
 	{
 		"src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
-		"GLFW"
+		"GLFW",
+		"Glad"
 	}
 
 	filter "system:windows"
 		staticruntime "On"
 		systemversion "latest"
-		defines "SKR_PLATFORM_WINDOWS"
+
+		defines
+		{
+			"SKR_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
+		}
 
 	filter "configurations:Debug"
 		defines "SKR_DEBUG"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Sakura/Events/Event.h"
+#include "Sakura/Events/WindowEvent.h"
 #include "Sakura/Windowing/WindowSystem.h"
 
 namespace Sakura
@@ -11,6 +13,11 @@ namespace Sakura
 		virtual ~Application();
 
 		void Run();
+		void OnEvent(Event& e);
+
+	private:
+		bool OnWindowResize(WindowResizeEvent& e);
+		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:
 		Window* m_Window = nullptr;
