@@ -5,8 +5,8 @@
 
 namespace Sakura
 {
-	RenderInstance* RenderInstance::Create(GLFWwindow* windowHandle)
+	Unique<RenderInstance> RenderInstance::Create(GLFWwindow* windowHandle)
 	{
-		return new OpenGLInstance(windowHandle);
+		return CreateUnique<OpenGLInstance>(windowHandle);
 	}
 }

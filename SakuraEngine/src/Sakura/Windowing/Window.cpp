@@ -113,7 +113,6 @@ namespace Sakura
 
 	Window::~Window()
 	{
-		delete m_RenderInstance;
 		m_RenderInstance = nullptr;
 		glfwDestroyWindow(m_NativeWindow);
 	}
