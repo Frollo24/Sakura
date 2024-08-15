@@ -1,6 +1,5 @@
+#include "skrpch.h"
 #include "Application.h"
-
-#include <iostream>
 
 namespace Sakura
 {

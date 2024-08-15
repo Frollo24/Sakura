@@ -2,6 +2,7 @@ include "dependencies.lua"
 
 workspace "Sakura"
 	architecture "x64"
+	startproject "SakuraSandbox"
 
 	configurations
 	{

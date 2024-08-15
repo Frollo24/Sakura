@@ -1,3 +1,4 @@
+#include "skrpch.h"
 #include "WindowSystem.h"
 
 #include <GLFW/glfw3.h>

@@ -1,5 +1,5 @@
+#include "skrpch.h"
 #include "OpenGLInstance.h"
-#include "Sakura/Core/Log.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>

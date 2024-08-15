@@ -1,9 +1,6 @@
 #pragma once
 
-#include <string>
-#include <stdint.h>
-#include <functional>
-
+#include "Sakura/Core/Base.h"
 #include "Sakura/Events/Event.h"
 #include "Sakura/Render/RenderInstance.h"
 

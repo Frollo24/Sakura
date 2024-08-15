@@ -1,11 +1,6 @@
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <stdint.h>
-#include <functional>
-
-#include "Sakura/Core/Defines.h"
+#include "Sakura/Core/Base.h"
 
 namespace Sakura
 {
