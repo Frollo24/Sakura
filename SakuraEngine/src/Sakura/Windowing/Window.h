@@ -52,7 +52,7 @@ namespace Sakura
 
 		GLFWwindow* m_NativeWindow = nullptr;
 
-		RenderInstance* m_RenderInstance = nullptr;
+		Unique<RenderInstance> m_RenderInstance = nullptr;
 	};
 }
 
