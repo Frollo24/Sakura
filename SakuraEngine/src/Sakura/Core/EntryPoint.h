@@ -7,6 +7,9 @@ namespace Sakura
 {
 	int Main(int argc, char** argv)
 	{
+		Log::Init();
+		SKR_CORE_INFO("Initialized logger!");
+
 		auto app = Sakura::CreateApplication();
 		app->Run();
 		delete app;

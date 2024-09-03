@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Sakura/Core/Log.h"
+#include "Sakura/Core/Memory.h"
 #include "Sakura/Events/Event.h"
 #include "Sakura/Events/WindowEvent.h"
 #include "Sakura/Windowing/WindowSystem.h"
@@ -20,7 +22,7 @@ namespace Sakura
 		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:
-		Window* m_Window = nullptr;
+		Unique<Window> m_Window = nullptr;
 		bool m_Running = true;
 	};
 

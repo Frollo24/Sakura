@@ -6,15 +6,20 @@ project "SakuraEngine"
 	targetdir ("%{wks.location}/" .. outputbindir .. "/%{prj.name}")
 	objdir ("%{wks.location}/" .. outputintdir .. "/%{prj.name}")
 
+	pchheader "skrpch.h"
+	pchsource "src/skrpch.cpp"
+
 	files
 	{
 		"src/**.h",
-		"src/**.cpp"
+		"src/**.cpp",
+
 	}
 
 	includedirs
 	{
 		"src",
+		"vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}"
 	}

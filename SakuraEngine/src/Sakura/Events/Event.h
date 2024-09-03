@@ -1,11 +1,6 @@
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <stdint.h>
-#include <functional>
-
-#include "Sakura/Core/Defines.h"
+#include "Sakura/Core/Base.h"
 
 namespace Sakura
 {
@@ -82,5 +77,10 @@ namespace Sakura
 	private:
 		Event& m_Event;
 	};
+
+	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	{
+		return os << e.ToString();
+	}
 }
 

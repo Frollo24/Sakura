@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Sakura/Core/Base.h"
+
 struct GLFWwindow;
 
 namespace Sakura
@@ -13,8 +15,7 @@ namespace Sakura
 		virtual void SetVSync(bool enabled) = 0;
 		virtual void SwapBuffers() = 0;
 
-		// TODO: include memory subsystem
-		static RenderInstance* Create(GLFWwindow* windowHandle);
+		static Unique<RenderInstance> Create(GLFWwindow* windowHandle);
 	};
 }
 

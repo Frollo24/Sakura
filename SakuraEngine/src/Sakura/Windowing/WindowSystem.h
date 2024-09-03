@@ -10,8 +10,8 @@ namespace Sakura
 		static void Init();
 		static void Shutdown();
 
-		static Window* CreateWindow(const WindowProps& props = WindowProps{});
-		static void DestroyWindow(Window* window);
+		static Unique<Window> Create(const WindowProps& props = WindowProps{});
+		static void Destroy(Unique<Window>& window);
 	};
 
 }

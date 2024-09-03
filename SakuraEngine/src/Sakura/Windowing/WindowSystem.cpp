@@ -1,3 +1,4 @@
+#include "skrpch.h"
 #include "WindowSystem.h"
 
 #include <GLFW/glfw3.h>
@@ -14,13 +15,13 @@ namespace Sakura
 		glfwTerminate();
 	}
 
-	Window* WindowSystem::CreateWindow(const WindowProps& props)
+	Unique<Window> WindowSystem::Create(const WindowProps& props)
 	{
-		return new Window(props);
+		return CreateUnique<Window>(props);
 	}
 
-	void WindowSystem::DestroyWindow(Window* window)
+	void WindowSystem::Destroy(Unique<Window>& window)
 	{
-		delete window;
+		window = nullptr;
 	}
 }
