@@ -9,10 +9,10 @@ namespace Sakura
 	{
 		switch (s_API)
 		{
-			case RenderAPI::None:      SKR_CORE_ERROR("RenderAPI::None is not supported!"); return nullptr;  // TODO: change to assert
+			case RenderAPI::None:      SKR_CORE_ASSERT(false, "RenderAPI::None is not supported!"); return nullptr;
 			case RenderAPI::OpenGL:    return CreateUnique<OpenGLContext>();
 		}
 
-		SKR_CORE_ERROR("Unknown render API!"); return nullptr;  // TODO: change to assert
+		SKR_CORE_ASSERT(false, "Unknown render API!"); return nullptr;
 	}
 }

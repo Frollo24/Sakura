@@ -14,7 +14,7 @@ namespace Sakura
 			case GL_DEBUG_SEVERITY_LOW:          SKR_CORE_INFO(message); return;
 			case GL_DEBUG_SEVERITY_NOTIFICATION: SKR_CORE_TRACE(message); return;
 			default:
-				SKR_CORE_ERROR("Unknown severity level!");  // TODO: change to assert
+				SKR_CORE_ASSERT(false, "Unknown severity level!");
 				break;
 		}
 	}
