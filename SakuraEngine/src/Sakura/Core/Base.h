@@ -4,3 +4,4 @@
 #include "Sakura/Core/Includes.h"
 #include "Sakura/Core/Memory.h"
 #include "Sakura/Core/Log.h"
+#include "Sakura/Core/Assertions.h"
