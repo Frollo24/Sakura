@@ -1,13 +1,22 @@
 #include "skrpch.h"
 #include "Application.h"
 
+#include "Sakura/Render/RenderContext.h"
+
+
 namespace Sakura
 {
+	// TODO: abstract into renderer
+	static Unique<RenderContext> s_RenderContext = nullptr;
+
 	Application::Application()
 	{
 		WindowSystem::Init();
 		m_Window = WindowSystem::Create();
 		m_Window->SetEventCallback(SKR_BIND_EVENT_FN(OnEvent));
+
+		s_RenderContext = RenderContext::Create();
+		s_RenderContext->Init();
 	}
 
 	Application::~Application()
@@ -20,6 +29,9 @@ namespace Sakura
 	{
 		while (m_Running)
 		{
+			s_RenderContext->BeginFrame();
+			// Render code...
+			s_RenderContext->EndFrame();
 			m_Window->OnUpdate();
 		}
 	}
