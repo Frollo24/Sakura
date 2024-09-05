@@ -17,11 +17,15 @@ namespace Sakura
 		void Run();
 		void OnEvent(Event& e);
 
+		inline const Unique<Window>& GetWindow() const { return m_Window; }
+		inline static const Application& Instance() { return *s_Instance; }
+
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
 		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:
+		inline static Application* s_Instance = nullptr;
 		Unique<Window> m_Window = nullptr;
 		bool m_Running = true;
 	};

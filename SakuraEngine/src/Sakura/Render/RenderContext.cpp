@@ -5,12 +5,12 @@
 
 namespace Sakura
 {
-	Unique<RenderContext> RenderContext::Create()
+	Ref<RenderContext> RenderContext::Create()
 	{
 		switch (s_API)
 		{
 			case RenderAPI::None:      SKR_CORE_ASSERT(false, "RenderAPI::None is not supported!"); return nullptr;
-			case RenderAPI::OpenGL:    return CreateUnique<OpenGLContext>();
+			case RenderAPI::OpenGL:    return CreateRef<OpenGLContext>();
 		}
 
 		SKR_CORE_ASSERT(false, "Unknown render API!"); return nullptr;

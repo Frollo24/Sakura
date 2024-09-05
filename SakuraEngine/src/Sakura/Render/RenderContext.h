@@ -20,7 +20,7 @@ namespace Sakura
 		virtual void EndFrame() = 0;
 
 		inline static RenderAPI GetAPI() { return s_API; }
-		static Unique<RenderContext> Create();
+		static Ref<RenderContext> Create();
 
 	private:
 		inline static RenderAPI s_API = RenderAPI::OpenGL;

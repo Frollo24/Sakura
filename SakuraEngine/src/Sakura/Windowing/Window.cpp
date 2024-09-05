@@ -22,7 +22,9 @@ namespace Sakura
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #endif
 
+		SKR_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 		m_NativeWindow = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
+		SKR_CORE_ASSERT(m_NativeWindow, "GLFW did not create the window correctly!");
 		glfwSetWindowUserPointer(m_NativeWindow, &m_Data);
 
 		m_RenderInstance = RenderInstance::Create(m_NativeWindow);

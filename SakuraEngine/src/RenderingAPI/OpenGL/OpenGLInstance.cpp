@@ -1,6 +1,9 @@
 #include "skrpch.h"
 #include "OpenGLInstance.h"
 
+#include "Sakura/Render/RenderDevice.h"
+#include "Sakura/Render/RenderContext.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
@@ -15,6 +18,8 @@ namespace Sakura
     OpenGLInstance::~OpenGLInstance()
     {
         glfwMakeContextCurrent(nullptr);
+
+        m_Device = nullptr;
     }
 
     void OpenGLInstance::Init()
@@ -25,10 +30,15 @@ namespace Sakura
         else
             SKR_CORE_CRITICAL("OpenGL Extension Loading Status: ERROR");
 
-        SKR_CORE_INFO("OpenGL info:");
-        SKR_CORE_INFO("  Vendor: {}", std::string_view((const char*)glGetString(GL_VENDOR)));
-        SKR_CORE_INFO("  Renderer: {}", std::string_view((const char*)glGetString(GL_RENDERER)));
-        SKR_CORE_INFO("  Version: {}", std::string_view((const char*)glGetString(GL_VERSION)));
+        SKR_CORE_DEBUG("OpenGL info:");
+        SKR_CORE_DEBUG("  Vendor: {}", std::string_view((const char*)glGetString(GL_VENDOR)));
+        SKR_CORE_DEBUG("  Renderer: {}", std::string_view((const char*)glGetString(GL_RENDERER)));
+        SKR_CORE_DEBUG("  Version: {}", std::string_view((const char*)glGetString(GL_VERSION)));
+
+        RawPointer<RenderInstance> instance = this;
+        m_Device = RenderDevice::Create(instance);
+        m_Context = RenderContext::Create();
+        m_Context->Init();
     }
 
     void OpenGLInstance::SetVSync(bool enabled)
