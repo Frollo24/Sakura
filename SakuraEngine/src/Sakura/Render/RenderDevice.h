@@ -8,6 +8,8 @@ namespace Sakura
 	class RenderDevice
 	{
 	public:
+		virtual ~RenderDevice() = default;
+
 		// virtual Ref<Buffer> CreateBuffer(const BufferDescription& bufferDescription) = 0;
 		// virtual void DestroyBuffer(Ref<Buffer>& buffer) = 0;
 
