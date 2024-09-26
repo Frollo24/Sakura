@@ -33,7 +33,7 @@ namespace Sakura
 		while (m_Running)
 		{
 			Renderer::BeginFrame();
-			// Render code...
+			Renderer::DrawTriangle();
 			Renderer::EndFrame();
 			m_Window->OnUpdate();
 		}
@@ -41,8 +41,7 @@ namespace Sakura
 
 	void Application::OnEvent(Event& e)
 	{
-		//SKR_CORE_TRACE("{0}", e);
-		Log::GetCoreLogger()->trace("{0}", e);
+		SKR_CORE_TRACE("{0}", e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(SKR_BIND_EVENT_FN(OnWindowClose));

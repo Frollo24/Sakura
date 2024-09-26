@@ -12,6 +12,9 @@ namespace Sakura
 
 		static void BeginFrame();
 		static void EndFrame();
+
+		// TODO: temp
+		static void DrawTriangle();
 	};
 }
 
