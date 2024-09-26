@@ -2,6 +2,7 @@
 
 #include "Sakura/Core/Base.h"
 #include "Sakura/Render/RenderInstance.h"
+#include "Sakura/Render/Buffer.h"
 
 namespace Sakura
 {
@@ -9,11 +10,10 @@ namespace Sakura
 	{
 	public:
 		virtual ~RenderDevice() = default;
-
-		// virtual Ref<Buffer> CreateBuffer(const BufferDescription& bufferDescription) = 0;
-		// virtual void DestroyBuffer(Ref<Buffer>& buffer) = 0;
-
 		static Ref<RenderDevice> Create(const RawPointer<RenderInstance>& instance);
+
+		Ref<Buffer> CreateBuffer(const BufferDescription& bufferDescription) const;
+		void DestroyBuffer(Ref<Buffer>& buffer) const;
 	};
 }
 

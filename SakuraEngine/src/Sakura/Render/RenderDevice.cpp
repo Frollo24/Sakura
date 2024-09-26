@@ -16,4 +16,14 @@ namespace Sakura
 
 		SKR_CORE_ASSERT(false, "Unknown render API!"); return nullptr;
 	}
+
+	Ref<Buffer> RenderDevice::CreateBuffer(const BufferDescription& bufferDescription) const
+	{
+		return Buffer::Create(bufferDescription);
+	}
+
+	void RenderDevice::DestroyBuffer(Ref<Buffer>& buffer) const
+	{
+		buffer = nullptr;
+	}
 }
