@@ -6,9 +6,6 @@
 
 namespace Sakura
 {
-	// TODO: abstract into renderer
-	static Ref<RenderContext> s_RenderContext = nullptr;
-
 	Application::Application()
 	{
 		s_Instance = this;
