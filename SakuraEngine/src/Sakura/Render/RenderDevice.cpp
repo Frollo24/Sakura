@@ -26,4 +26,14 @@ namespace Sakura
 	{
 		buffer = nullptr;
 	}
+
+	Ref<Texture> RenderDevice::CreateTexture(const TextureDescription& textureDescription) const
+	{
+		return Texture::Create(textureDescription);
+	}
+
+	void RenderDevice::DestroyTexture(Ref<Texture>& texture) const
+	{
+		texture = nullptr;
+	}
 }
