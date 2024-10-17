@@ -132,9 +132,6 @@ namespace Sakura
 			default:
 				break;
 		}
-
-		// HACK: this should be treated during the resource binding
-		glBindTextureUnit(0, m_RendererID);
 	}
 
 	OpenGLTexture::~OpenGLTexture()

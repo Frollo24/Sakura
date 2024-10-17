@@ -36,4 +36,24 @@ namespace Sakura
 	{
 		texture = nullptr;
 	}
+
+	Ref<Pipeline> RenderDevice::CreatePipeline(const PipelineState& state, const Ref<Shader>& shader) const
+	{
+		return Pipeline::Create(state, shader);
+	}
+
+	void RenderDevice::DestroyPipeline(Ref<Pipeline>& pipeline) const
+	{
+		pipeline = nullptr;
+	}
+
+	Ref<Shader> RenderDevice::CreateShader(const std::vector<ShaderSpecs>& shaderFiles) const
+	{
+		return Shader::Create(shaderFiles);
+	}
+
+	void RenderDevice::DestroyShader(Ref<Shader>& shader) const
+	{
+		shader = nullptr;
+	}
 }

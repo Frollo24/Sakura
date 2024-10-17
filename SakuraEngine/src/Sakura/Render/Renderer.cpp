@@ -20,6 +20,7 @@ namespace Sakura
 	static Ref<InputLayout> sInputLayout = nullptr;
 	static InputBinding sInputBinding = {};
 	static Ref<Texture> sTexture = nullptr;
+	static Ref<Pipeline> sPipeline = nullptr;
 
 	void Renderer::Init()
 	{
@@ -62,6 +63,19 @@ namespace Sakura
 			}
 		}
 		sTexture->SetData(checkerboardPixels.data());
+
+		ShaderSpecs vertexShader{};
+		vertexShader.Filepath = "assets/shaders/TestTriangle.vert";
+		vertexShader.Type = ShaderType::Vertex;
+		ShaderSpecs fragmentShader{};
+		fragmentShader.Filepath = "assets/shaders/TestTriangle.frag";
+		fragmentShader.Type = ShaderType::Fragment;
+
+		Ref<Shader> shader = s_RendererData->Device->CreateShader({vertexShader, fragmentShader});
+
+		PipelineState pipelineState{};
+		pipelineState.InputLayout = sInputLayout;
+		sPipeline = s_RendererData->Device->CreatePipeline(pipelineState, shader);
 	}
 
 	void Renderer::Shutdown()
@@ -81,6 +95,8 @@ namespace Sakura
 
 	void Renderer::DrawTriangle()
 	{
+		s_RendererData->Context->BindPipeline(sPipeline);
+		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);
 		s_RendererData->Context->BindVertexBuffer(sVertexBuffer, sInputBinding);
 		s_RendererData->Context->Draw(3, 1, 0, 0);

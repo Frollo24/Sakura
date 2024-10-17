@@ -15,9 +15,12 @@ namespace Sakura
 		virtual void BeginFrame() override;
 		virtual void EndFrame() override;
 
+		virtual void BindPipeline(const Ref<Pipeline>& pipeline) override;
 		virtual void SetInputLayout(const Ref<InputLayout>& layout) override;
 		virtual void BindVertexBuffer(const Ref<Buffer>& vertexBuffer, const InputBinding& binding) override;
 		virtual void BindIndexBuffer(const Ref<Buffer>& indexBuffer) override;
+
+		virtual void BindTexture(const Ref<Texture>& texture, uint32_t binding) override;
 
 		virtual void Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) override;
 
