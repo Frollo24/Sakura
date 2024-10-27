@@ -123,22 +123,37 @@ namespace Sakura
 
 		static void SetBlendState(const PipelineBlendState& blendState)
 		{
-			if (!blendState.BlendEnable)
+			for (int idx = 0; idx < blendState.BlendAttachments.size(); idx++)
 			{
-				glDisable(GL_BLEND);
-				return;
+				const BlendAttachment& blendAttachment = blendState.BlendAttachments[idx];
+				if (!blendAttachment.BlendEnable)
+				{
+					glDisablei(GL_BLEND, idx);
+					continue;
+				}
+				glEnablei(GL_BLEND, idx);
+
+				glBlendFuncSeparatei(idx,
+					BlendFactorToGLBlendFactor(blendAttachment.ColorEquation.SrcFactor),
+					BlendFactorToGLBlendFactor(blendAttachment.ColorEquation.DstFactor),
+					BlendFactorToGLBlendFactor(blendAttachment.AlphaEquation.SrcFactor),
+					BlendFactorToGLBlendFactor(blendAttachment.AlphaEquation.DstFactor)
+				);
+
+				glBlendEquationSeparatei(idx,
+					OperationToGLBlendEquation(blendAttachment.ColorEquation.Operation),
+					OperationToGLBlendEquation(blendAttachment.AlphaEquation.Operation)
+				);
+
+				glColorMaski(idx,
+					GLboolean(blendAttachment.ColorWriteMask & ColorWriteMask::ColorWriteMaskR),
+					GLboolean(blendAttachment.ColorWriteMask & ColorWriteMask::ColorWriteMaskG),
+					GLboolean(blendAttachment.ColorWriteMask & ColorWriteMask::ColorWriteMaskB),
+					GLboolean(blendAttachment.ColorWriteMask & ColorWriteMask::ColorWriteMaskA)
+				);
 			}
-			glEnable(GL_BLEND);
-			glBlendFuncSeparate(
-				BlendFactorToGLBlendFactor(blendState.ColorEquation.SrcFactor),
-				BlendFactorToGLBlendFactor(blendState.ColorEquation.DstFactor),
-				BlendFactorToGLBlendFactor(blendState.AlphaEquation.SrcFactor),
-				BlendFactorToGLBlendFactor(blendState.AlphaEquation.DstFactor)
-			);
-			glBlendEquationSeparate(
-				OperationToGLBlendEquation(blendState.ColorEquation.Operation),
-				OperationToGLBlendEquation(blendState.AlphaEquation.Operation)
-			);
+
+			glBlendColor(blendState.ConstantColor.R, blendState.ConstantColor.G, blendState.ConstantColor.B, blendState.ConstantColor.A);
 		}
 
 		static void SetPolygonState(const PipelinePolygonState& polygonState)
@@ -206,10 +221,10 @@ namespace Sakura
 
 		const RenderPassDescription& description = renderPass->GetDescription();
 
-		const ClearValues& clearValues = description.ClearValues;
-
 		if (framebufferID == 0)
 		{
+			const ClearValues& clearValues = description.ClearValues[0];
+
 			glClearColor(clearValues.Color.r, clearValues.Color.g, clearValues.Color.b, clearValues.Color.a);
 			glClearDepth(clearValues.Depth);
 			glClearStencil(clearValues.Stencil);
@@ -218,8 +233,11 @@ namespace Sakura
 		}
 
 		GLuint drawbuffer = 0;
+		int attachmentIndex = 0;
 		for (const auto& attachment : description.Attachments)
 		{
+			const ClearValues& clearValues = description.ClearValues[attachmentIndex];
+
 			switch (attachment)
 			{
 				using enum Sakura::AttachmentFormat;
@@ -244,6 +262,8 @@ namespace Sakura
 				default:
 					break;
 			}
+
+			attachmentIndex++;
 		}
 	}
 

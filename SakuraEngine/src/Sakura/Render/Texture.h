@@ -24,6 +24,7 @@ namespace Sakura
 		None = 0,
 		RGB8,
 		RGBA8,
+		D32
 	};
 
 	enum class TextureFilterMode

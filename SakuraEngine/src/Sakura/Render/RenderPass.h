@@ -48,7 +48,7 @@ namespace Sakura
 	struct RenderPassDescription
 	{
 		std::array<AttachmentFormat, MAX_TOTAL_ATTACHMENTS> Attachments{};
-		ClearValues ClearValues{};
+		std::array<ClearValues, MAX_TOTAL_ATTACHMENTS> ClearValues{};
 		uint32_t Samples = 1;
 		bool IsSwapchainTarget = false;
 	};

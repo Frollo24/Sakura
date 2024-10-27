@@ -8,7 +8,7 @@ namespace Sakura
 	OpenGLRenderPass::OpenGLRenderPass(const RenderPassDescription& desc)
 		: RenderPass(desc)
 	{
-		if (m_RenderPassDesc.IsSwapchainTarget)
+		if (m_RenderPassDesc.IsSwapchainTarget) 
 			return;
 
 		glCreateFramebuffers(1, &m_RendererID);
@@ -26,10 +26,16 @@ namespace Sakura
 					colorAttachment++;
 					break;
 				case AttachmentFormat::D24S8:
-				case AttachmentFormat::D32:
 					if (!depthAttachment)
 					{
 						m_Attachments[i] = GL_DEPTH_STENCIL_ATTACHMENT;
+						depthAttachment = true;
+					}
+					break;
+				case AttachmentFormat::D32:
+					if (!depthAttachment)
+					{
+						m_Attachments[i] = GL_DEPTH_ATTACHMENT;
 						depthAttachment = true;
 					}
 					break;

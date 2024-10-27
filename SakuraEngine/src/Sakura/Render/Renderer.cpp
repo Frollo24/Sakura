@@ -81,9 +81,15 @@ namespace Sakura
 		sPipeline = s_RendererData->Device->CreatePipeline(pipelineState, shader);
 
 		RenderPassDescription renderPassDesc = {};
-		renderPassDesc.ClearValues.Color = {1.0f, 0.6f, 0.3f, 1.0f};
-		renderPassDesc.ClearValues.ClearFlags = ClearFlags::Color;
-		renderPassDesc.Attachments = { AttachmentFormat::RGBA8 };
+		renderPassDesc.ClearValues[0].Color = {1.0f, 0.6f, 0.3f, 1.0f};
+		renderPassDesc.ClearValues[0].ClearFlags = ClearFlags::Color;
+		renderPassDesc.Attachments[0] = AttachmentFormat::RGBA8;
+		renderPassDesc.ClearValues[1].Color = { 0.2f, 1.0f, 0.5f, 1.0f };
+		renderPassDesc.ClearValues[1].ClearFlags = ClearFlags::Color;
+		renderPassDesc.Attachments[1] = AttachmentFormat::RGBA8;
+		renderPassDesc.ClearValues[2].Depth = 1.0f;
+		renderPassDesc.ClearValues[2].ClearFlags = ClearFlags::DepthStencil;
+		renderPassDesc.Attachments[2] = AttachmentFormat::D32;
 		renderPassDesc.IsSwapchainTarget = false;
 
 		sRenderPass = s_RendererData->Device->CreateRenderPass(renderPassDesc);
@@ -93,19 +99,25 @@ namespace Sakura
 		framebufferTextureDesc.ImageFormat = ImageFormat::RGBA8;
 		framebufferTextureDesc.GenerateMipmaps = false;
 		framebufferTextureDesc.FilterMode = TextureFilterMode::Linear;
-		Ref<Texture> framebufferTexture = s_RendererData->Device->CreateTexture(framebufferTextureDesc);
-
+		Ref<Texture> framebufferColorTexture1 = s_RendererData->Device->CreateTexture(framebufferTextureDesc);
+		Ref<Texture> framebufferColorTexture2 = s_RendererData->Device->CreateTexture(framebufferTextureDesc);
+		framebufferTextureDesc.ImageFormat = ImageFormat::D32;
+		Ref<Texture> framebufferDepthTexture = s_RendererData->Device->CreateTexture(framebufferTextureDesc);
+		
 		FramebufferDescription framebufferDesc = {};
 		framebufferDesc.Width = 800;
 		framebufferDesc.Height = 600;
-		framebufferDesc.RenderTargets[0] = framebufferTexture;
+		framebufferDesc.RenderTargets[0] = framebufferColorTexture1;
+		framebufferDesc.RenderTargets[1] = framebufferColorTexture2;
+		framebufferDesc.RenderTargets[2] = framebufferDepthTexture;
 		framebufferDesc.RenderPass = sRenderPass;
 		sFramebuffer = s_RendererData->Device->CreateFramebuffer(framebufferDesc);
 
 		RenderPassDescription swapchainPassDesc = {};
-		swapchainPassDesc.ClearValues.Color = { 0.0f, 0.0f, 0.0f, 1.0f };
-		swapchainPassDesc.ClearValues.ClearFlags = ClearFlags::All;
-		swapchainPassDesc.Attachments = { AttachmentFormat::RGBA8 };
+		swapchainPassDesc.ClearValues[0].Color = { 0.0f, 0.0f, 0.0f, 1.0f };
+		swapchainPassDesc.ClearValues[0].Depth = 1.0f;
+		swapchainPassDesc.ClearValues[0].ClearFlags = ClearFlags::All;
+		swapchainPassDesc.Attachments[0] = AttachmentFormat::RGBA8;  // TODO: retrieve and store swapchain format for OpenGL
 		swapchainPassDesc.IsSwapchainTarget = true;
 
 		s_RendererData->SwapchainPass = s_RendererData->Device->CreateRenderPass(swapchainPassDesc);

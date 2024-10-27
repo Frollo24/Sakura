@@ -27,6 +27,7 @@ namespace Sakura
 			case None:    return GL_NONE;
 			case RGB8:    return GL_RGB8;
 			case RGBA8:   return GL_RGBA8;
+			case D32:     return GL_DEPTH_COMPONENT32F;
 			default:
 				return GL_NONE;
 		}
@@ -40,6 +41,7 @@ namespace Sakura
 			case None:    return GL_NONE;
 			case RGB8:    return GL_RGB;
 			case RGBA8:   return GL_RGBA;
+			case D32:     return GL_DEPTH_COMPONENT;
 			default:
 				return GL_NONE;
 		}
@@ -53,6 +55,7 @@ namespace Sakura
 			case None:    return GL_NONE;
 			case RGB8:    return GL_UNSIGNED_BYTE;
 			case RGBA8:   return GL_UNSIGNED_BYTE;
+			case D32:     return GL_FLOAT;
 			default:
 				return GL_NONE;
 		}

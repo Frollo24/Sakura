@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Sakura/Core/Base.h"
+#include "Sakura/Render/RenderPass.h"
 
 namespace Sakura
 {
@@ -65,6 +66,14 @@ namespace Sakura
 		BlendOperation Operation = BlendOperation::Add;
 	};
 
+	struct BlendAttachment
+	{
+		BlendingEquation ColorEquation{};
+		BlendingEquation AlphaEquation{};
+		ColorWriteMask ColorWriteMask = ColorWriteMask::ColorWriteMaskAll;
+		bool BlendEnable = false;
+	};
+
 	struct BlendConstants
 	{
 		float R = 0.0f;
@@ -75,11 +84,8 @@ namespace Sakura
 
 	struct PipelineBlendState
 	{
-		ColorWriteMask ColorWriteMask = ColorWriteMask::ColorWriteMaskAll;
-		BlendingEquation ColorEquation{};
-		BlendingEquation AlphaEquation{};
+		std::array<BlendAttachment, MAX_COLOR_ATTACHMENTS> BlendAttachments{};
 		BlendConstants ConstantColor{};
-		bool BlendEnable = false;
 	};
 
 	SKR_DEFINE_ENUM_FLAG_OPERATORS(ColorWriteMask);

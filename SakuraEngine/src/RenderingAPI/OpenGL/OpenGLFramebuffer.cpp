@@ -28,7 +28,7 @@ namespace Sakura
 			if (attachment == GL_NONE)
 				break;
 
-			if (attachment == GL_DEPTH_STENCIL_ATTACHMENT)
+			if (attachment == GL_DEPTH_STENCIL_ATTACHMENT || attachment == GL_DEPTH_ATTACHMENT || attachment == GL_STENCIL_ATTACHMENT)
 				continue;
 
 			drawbufferCount++;
@@ -48,6 +48,8 @@ namespace Sakura
 		}
 
 		SKR_CORE_ASSERT(glCheckNamedFramebufferStatus(m_RendererID, GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
+
+		// TODO: Add extensive completeness status logging
 	}
 
 	OpenGLFramebuffer::~OpenGLFramebuffer()
