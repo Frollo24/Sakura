@@ -56,4 +56,24 @@ namespace Sakura
 	{
 		shader = nullptr;
 	}
+
+	Ref<RenderPass> RenderDevice::CreateRenderPass(const RenderPassDescription& renderPassDescription) const
+	{
+		return RenderPass::Create(renderPassDescription);
+	}
+
+	void RenderDevice::DestroyRenderPass(Ref<RenderPass>& renderPass) const
+	{
+		renderPass = nullptr;
+	}
+
+	Ref<Framebuffer> RenderDevice::CreateFramebuffer(const FramebufferDescription& framebufferDescription) const
+	{
+		return Framebuffer::Create(framebufferDescription);
+	}
+
+	void RenderDevice::DestroyFramebuffer(Ref<Framebuffer>& framebuffer) const
+	{
+		framebuffer = nullptr;
+	}
 }

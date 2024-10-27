@@ -15,6 +15,9 @@ namespace Sakura
 		virtual void BeginFrame() override;
 		virtual void EndFrame() override;
 
+		virtual void BeginRenderPass(const Ref<RenderPass>& renderPass) override;
+		virtual void EndRenderPass() override;
+
 		virtual void BindPipeline(const Ref<Pipeline>& pipeline) override;
 		virtual void SetInputLayout(const Ref<InputLayout>& layout) override;
 		virtual void BindVertexBuffer(const Ref<Buffer>& vertexBuffer, const InputBinding& binding) override;

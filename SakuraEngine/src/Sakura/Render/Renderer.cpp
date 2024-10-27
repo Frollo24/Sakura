@@ -12,6 +12,7 @@ namespace Sakura
 	{
 		Ref<RenderDevice> Device;
 		Ref<RenderContext> Context;
+		Ref<RenderPass> SwapchainPass;
 	};
 	static Unique<RendererData> s_RendererData = nullptr;
 
@@ -21,6 +22,8 @@ namespace Sakura
 	static InputBinding sInputBinding = {};
 	static Ref<Texture> sTexture = nullptr;
 	static Ref<Pipeline> sPipeline = nullptr;
+	static Ref<RenderPass> sRenderPass = nullptr;
+	static Ref<Framebuffer> sFramebuffer = nullptr;
 
 	void Renderer::Init()
 	{
@@ -76,6 +79,36 @@ namespace Sakura
 		PipelineState pipelineState{};
 		pipelineState.InputLayout = sInputLayout;
 		sPipeline = s_RendererData->Device->CreatePipeline(pipelineState, shader);
+
+		RenderPassDescription renderPassDesc = {};
+		renderPassDesc.ClearValues.Color = {1.0f, 0.6f, 0.3f, 1.0f};
+		renderPassDesc.ClearValues.ClearFlags = ClearFlags::Color;
+		renderPassDesc.Attachments = { AttachmentFormat::RGBA8 };
+		renderPassDesc.IsSwapchainTarget = false;
+
+		sRenderPass = s_RendererData->Device->CreateRenderPass(renderPassDesc);
+
+		TextureDescription framebufferTextureDesc = {};
+		framebufferTextureDesc.ImageExtent = { 800, 600, 1 };
+		framebufferTextureDesc.ImageFormat = ImageFormat::RGBA8;
+		framebufferTextureDesc.GenerateMipmaps = false;
+		framebufferTextureDesc.FilterMode = TextureFilterMode::Linear;
+		Ref<Texture> framebufferTexture = s_RendererData->Device->CreateTexture(framebufferTextureDesc);
+
+		FramebufferDescription framebufferDesc = {};
+		framebufferDesc.Width = 800;
+		framebufferDesc.Height = 600;
+		framebufferDesc.RenderTargets[0] = framebufferTexture;
+		framebufferDesc.RenderPass = sRenderPass;
+		sFramebuffer = s_RendererData->Device->CreateFramebuffer(framebufferDesc);
+
+		RenderPassDescription swapchainPassDesc = {};
+		swapchainPassDesc.ClearValues.Color = { 0.0f, 0.0f, 0.0f, 1.0f };
+		swapchainPassDesc.ClearValues.ClearFlags = ClearFlags::All;
+		swapchainPassDesc.Attachments = { AttachmentFormat::RGBA8 };
+		swapchainPassDesc.IsSwapchainTarget = true;
+
+		s_RendererData->SwapchainPass = s_RendererData->Device->CreateRenderPass(swapchainPassDesc);
 	}
 
 	void Renderer::Shutdown()
@@ -95,10 +128,20 @@ namespace Sakura
 
 	void Renderer::DrawTriangle()
 	{
+		s_RendererData->Context->BeginRenderPass(sRenderPass);
 		s_RendererData->Context->BindPipeline(sPipeline);
 		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);
 		s_RendererData->Context->BindVertexBuffer(sVertexBuffer, sInputBinding);
 		s_RendererData->Context->Draw(3, 1, 0, 0);
+		s_RendererData->Context->EndRenderPass();
+
+		s_RendererData->Context->BeginRenderPass(s_RendererData->SwapchainPass);
+		s_RendererData->Context->BindPipeline(sPipeline);
+		s_RendererData->Context->BindTexture(sTexture, 0);
+		s_RendererData->Context->SetInputLayout(sInputLayout);
+		s_RendererData->Context->BindVertexBuffer(sVertexBuffer, sInputBinding);
+		s_RendererData->Context->Draw(3, 1, 0, 0);
+		s_RendererData->Context->EndRenderPass();
 	}
 }

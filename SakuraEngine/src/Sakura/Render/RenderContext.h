@@ -5,6 +5,7 @@
 #include "Sakura/Render/Buffer.h"
 #include "Sakura/Render/Pipeline.h"
 #include "Sakura/Render/Texture.h"
+#include "Sakura/Render/RenderPass.h"
 
 namespace Sakura
 {
@@ -24,6 +25,9 @@ namespace Sakura
 
 		virtual void BeginFrame() = 0;
 		virtual void EndFrame() = 0;
+
+		virtual void BeginRenderPass(const Ref<RenderPass>& renderPass) = 0;
+		virtual void EndRenderPass() = 0;
 
 		virtual void BindPipeline(const Ref<Pipeline>& pipeline) = 0;
 		virtual void SetInputLayout(const Ref<InputLayout>& layout) = 0;

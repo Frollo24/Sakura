@@ -5,6 +5,8 @@
 #include "Sakura/Render/Buffer.h"
 #include "Sakura/Render/Texture.h"
 #include "Sakura/Render/Pipeline.h"
+#include "Sakura/Render/RenderPass.h"
+#include "Sakura/Render/Framebuffer.h"
 
 namespace Sakura
 {
@@ -25,6 +27,12 @@ namespace Sakura
 
 		Ref<Shader> CreateShader(const std::vector<ShaderSpecs>& shaderFiles) const;
 		void DestroyShader(Ref<Shader>& shader) const;
+
+		Ref<RenderPass> CreateRenderPass(const RenderPassDescription& renderPassDescription) const;
+		void DestroyRenderPass(Ref<RenderPass>& renderPass) const;
+
+		Ref<Framebuffer> CreateFramebuffer(const FramebufferDescription& framebufferDescription) const;
+		void DestroyFramebuffer(Ref<Framebuffer>& framebuffer) const;
 	};
 }
 

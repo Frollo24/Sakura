@@ -5,6 +5,7 @@
 #include "OpenGLBuffer.h"
 #include "OpenGLPipeline.h"
 #include "OpenGLTexture.h"
+#include "OpenGLRenderPass.h"
 
 #include <glad/glad.h>
 
@@ -196,6 +197,59 @@ namespace Sakura
 		// Reset buffer writing to true for any buffer
 		glDepthMask(GL_TRUE);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	}
+
+	void OpenGLContext::BeginRenderPass(const Ref<RenderPass>& renderPass)
+	{
+		uint32_t framebufferID = dynamic_cast<OpenGLRenderPass*>(renderPass.get())->GetRendererID();
+		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+
+		const RenderPassDescription& description = renderPass->GetDescription();
+
+		const ClearValues& clearValues = description.ClearValues;
+
+		if (framebufferID == 0)
+		{
+			glClearColor(clearValues.Color.r, clearValues.Color.g, clearValues.Color.b, clearValues.Color.a);
+			glClearDepth(clearValues.Depth);
+			glClearStencil(clearValues.Stencil);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			return;
+		}
+
+		GLuint drawbuffer = 0;
+		for (const auto& attachment : description.Attachments)
+		{
+			switch (attachment)
+			{
+				using enum Sakura::AttachmentFormat;
+				case R8:
+				case RGBA8:
+				case RGBA16F:
+					if ((bool)(clearValues.ClearFlags & ClearFlags::Color))
+					{
+						std::array<GLfloat, 4> clearColor = { clearValues.Color.r, clearValues.Color.g, clearValues.Color.b, clearValues.Color.a };
+						glClearNamedFramebufferfv(framebufferID, GL_COLOR, drawbuffer++, clearColor.data());
+					}
+					break;
+				case D24S8:
+				case D32:
+					if ((bool)(clearValues.ClearFlags & ClearFlags::DepthStencil))
+					{
+						GLfloat depth = clearValues.Depth;
+						GLint stencil = clearValues.Stencil;
+						glClearNamedFramebufferfi(framebufferID, GL_DEPTH_STENCIL, 0, depth, stencil);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	void OpenGLContext::EndRenderPass()
+	{
+		// At the moment this does nothing
 	}
 
 	void OpenGLContext::BindPipeline(const Ref<Pipeline>& pipeline)
