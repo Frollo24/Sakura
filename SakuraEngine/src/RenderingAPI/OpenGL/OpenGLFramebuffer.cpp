@@ -55,7 +55,7 @@ namespace Sakura
 		switch (fbStatus)
 		{
 			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-				SKR_CORE_ERROR("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT: One of the frambuffer attachment points has not been configured correctly");
+				SKR_CORE_ERROR("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT: One of the framebuffer attachment points has not been configured correctly");
 				break;
 			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 				SKR_CORE_ERROR("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: The framebuffer does not have any image attached to it");
