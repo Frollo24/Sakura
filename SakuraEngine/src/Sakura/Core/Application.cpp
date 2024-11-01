@@ -60,6 +60,7 @@ namespace Sakura
 		}
 
 		m_Window->SetMinimized(false);
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 }

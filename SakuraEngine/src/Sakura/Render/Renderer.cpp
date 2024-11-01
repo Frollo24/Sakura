@@ -128,6 +128,11 @@ namespace Sakura
 		s_RendererData = nullptr;
 	}
 
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	{
+		sFramebuffer->Resize(width, height);
+	}
+
 	void Renderer::BeginFrame()
 	{
 		s_RendererData->Context->BeginFrame();
@@ -140,7 +145,11 @@ namespace Sakura
 
 	void Renderer::DrawTriangle()
 	{
+		uint32_t fbWidth = sFramebuffer->GetDescription().Width;
+		uint32_t fbHeight = sFramebuffer->GetDescription().Height;
+
 		s_RendererData->Context->BeginRenderPass(sRenderPass);
+		s_RendererData->Context->SetViewport(0, 0, fbWidth, fbHeight);
 		s_RendererData->Context->BindPipeline(sPipeline);
 		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);
@@ -148,7 +157,11 @@ namespace Sakura
 		s_RendererData->Context->Draw(3, 1, 0, 0);
 		s_RendererData->Context->EndRenderPass();
 
+		uint32_t width = Application::Instance().GetWindow()->GetWidth();
+		uint32_t height = Application::Instance().GetWindow()->GetHeight();
+
 		s_RendererData->Context->BeginRenderPass(s_RendererData->SwapchainPass);
+		s_RendererData->Context->SetViewport(0, 0, width, height);
 		s_RendererData->Context->BindPipeline(sPipeline);
 		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);

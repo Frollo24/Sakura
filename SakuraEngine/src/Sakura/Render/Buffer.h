@@ -21,7 +21,7 @@ namespace Sakura
 	public:
 		virtual ~Buffer() = default;
 
-		inline const BufferDescription& GetDescription() const { return m_BufferDesc; };
+		inline const BufferDescription& GetDescription() const { return m_BufferDesc; }
 
 		virtual void SetData(uint32_t offset, uint32_t size, const void* data) = 0;
 

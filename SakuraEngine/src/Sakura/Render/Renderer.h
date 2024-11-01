@@ -10,6 +10,8 @@ namespace Sakura
 		static void Init();
 		static void Shutdown();
 
+		static void OnWindowResize(uint32_t width, uint32_t height);
+
 		static void BeginFrame();
 		static void EndFrame();
 

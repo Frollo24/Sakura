@@ -19,6 +19,10 @@ namespace Sakura
 	public:
 		virtual ~Framebuffer() = default;
 
+		inline const FramebufferDescription& GetDescription() const { return m_FramebufferDesc; }
+
+		virtual void Resize(uint32_t width, uint32_t height) = 0;
+
 		static Ref<Framebuffer> Create(const FramebufferDescription& desc);
 
 	protected:

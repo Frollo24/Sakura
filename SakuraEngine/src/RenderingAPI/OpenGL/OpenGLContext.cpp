@@ -214,6 +214,11 @@ namespace Sakura
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
 
+	void OpenGLContext::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+	{
+		glViewport(x, y, width, height);
+	}
+
 	void OpenGLContext::BeginRenderPass(const Ref<RenderPass>& renderPass)
 	{
 		uint32_t framebufferID = dynamic_cast<OpenGLRenderPass*>(renderPass.get())->GetRendererID();
