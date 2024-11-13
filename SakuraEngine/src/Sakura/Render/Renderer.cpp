@@ -18,6 +18,7 @@ namespace Sakura
 
 	// HACK: these should be created on client side
 	static Ref<Buffer> sVertexBuffer = nullptr;
+	static Ref<Buffer> sIndexBuffer = nullptr;
 	static Ref<InputLayout> sInputLayout = nullptr;
 	static InputBinding sInputBinding = {};
 	static Ref<Texture> sTexture = nullptr;
@@ -32,9 +33,10 @@ namespace Sakura
 		s_RendererData->Context = Application::Instance().GetWindow()->GetRenderInstance()->GetContext();
 
 		float vertexBuffer[] = {
-			 0.0f,  0.5f, 1.0f, 0.0f, 0.0f, 0.5f, 1.0f,
+			-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
 		};
 
 		BufferDescription vertexDescription = {};
@@ -42,6 +44,16 @@ namespace Sakura
 		vertexDescription.Size = sizeof(vertexBuffer);
 		vertexDescription.Data = vertexBuffer;
 		sVertexBuffer = s_RendererData->Device->CreateBuffer(vertexDescription);
+
+		int indexBuffer[] = {
+			0, 1, 2, 2, 3, 0
+		};
+
+		BufferDescription indexDescription = {};
+		indexDescription.Type = BufferType::Index;
+		indexDescription.Size = sizeof(indexBuffer);
+		indexDescription.Data = indexBuffer;
+		sIndexBuffer = s_RendererData->Device->CreateBuffer(indexDescription);
 
 		sInputBinding = {
 			{ShaderDataType::Float2, "aPosition"},
@@ -154,7 +166,8 @@ namespace Sakura
 		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);
 		s_RendererData->Context->BindVertexBuffer(sVertexBuffer, sInputBinding);
-		s_RendererData->Context->Draw(3, 1, 0, 0);
+		s_RendererData->Context->BindIndexBuffer(sIndexBuffer);
+		s_RendererData->Context->DrawIndexed(6, 1, 0, 0, 0);
 		s_RendererData->Context->EndRenderPass();
 
 		uint32_t width = Application::Instance().GetWindow()->GetWidth();
@@ -166,7 +179,8 @@ namespace Sakura
 		s_RendererData->Context->BindTexture(sTexture, 0);
 		s_RendererData->Context->SetInputLayout(sInputLayout);
 		s_RendererData->Context->BindVertexBuffer(sVertexBuffer, sInputBinding);
-		s_RendererData->Context->Draw(3, 1, 0, 0);
+		s_RendererData->Context->BindIndexBuffer(sIndexBuffer);
+		s_RendererData->Context->DrawIndexed(6, 1, 0, 0, 0);
 		s_RendererData->Context->EndRenderPass();
 	}
 }

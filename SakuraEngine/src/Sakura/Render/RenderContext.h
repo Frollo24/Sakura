@@ -39,6 +39,7 @@ namespace Sakura
 		virtual void BindTexture(const Ref<Texture>& texture, uint32_t binding) = 0;
 
 		virtual void Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) = 0;
+		virtual void DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstInstance, uint32_t vertexOffset) = 0;
 
 		inline static RenderAPI GetAPI() { return s_API; }
 		static Ref<RenderContext> Create();

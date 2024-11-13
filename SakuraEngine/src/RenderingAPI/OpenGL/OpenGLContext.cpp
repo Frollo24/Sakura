@@ -321,4 +321,14 @@ namespace Sakura
 		else
 			glDrawArrays(GL_TRIANGLES, firstVertex, vertexCount);
 	}
+
+	void OpenGLContext::DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstInstance, uint32_t vertexOffset)
+	{
+		if (instanceCount > 1 && firstInstance == 0)
+			glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr, instanceCount);
+		else if (instanceCount > 1)
+			glDrawElementsInstancedBaseInstance(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr, instanceCount, firstInstance);
+		else
+			glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	}
 }

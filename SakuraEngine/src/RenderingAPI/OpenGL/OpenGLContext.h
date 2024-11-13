@@ -27,6 +27,7 @@ namespace Sakura
 		virtual void BindTexture(const Ref<Texture>& texture, uint32_t binding) override;
 
 		virtual void Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) override;
+		virtual void DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t firstInstance, uint32_t vertexOffset) override;
 
 	private:
 		uint32_t m_BoundVertexArray = 0;
