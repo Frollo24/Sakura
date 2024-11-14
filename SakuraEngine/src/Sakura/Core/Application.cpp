@@ -30,7 +30,7 @@ namespace Sakura
 		while (m_Running)
 		{
 			Renderer::BeginFrame();
-			Renderer::DrawTriangle();
+			this->OnRender();
 			Renderer::EndFrame();
 			m_Window->OnUpdate();
 		}
@@ -61,6 +61,7 @@ namespace Sakura
 
 		m_Window->SetMinimized(false);
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		this->OnResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 }
