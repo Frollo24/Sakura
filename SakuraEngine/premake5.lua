@@ -13,7 +13,8 @@ project "SakuraEngine"
 	{
 		"src/**.h",
 		"src/**.cpp",
-
+		"vendor/stb_image/stb_image.h",
+		"vendor/stb_image/stb_image.cpp"
 	}
 
 	includedirs
@@ -21,7 +22,9 @@ project "SakuraEngine"
 		"src",
 		"vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links

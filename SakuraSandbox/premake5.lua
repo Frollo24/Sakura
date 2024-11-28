@@ -9,14 +9,15 @@ project "SakuraSandbox"
 	files
 	{
 		"src/**.h",
-		"src/**.cpp"
+		"src/**.cpp",
 	}
 
 	includedirs
 	{
 		"src/",
 		"%{wks.location}/SakuraEngine/src/",
-		"%{wks.location}/SakuraEngine/vendor/spdlog/include"
+		"%{wks.location}/SakuraEngine/vendor/spdlog/include",
+		"%{IncludeDir.glm}"
 	}
 
 	links
