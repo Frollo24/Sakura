@@ -32,6 +32,10 @@ namespace Sakura
 		void SetVSync(bool enabled);
 		inline bool IsVSync() const { return m_Data.VSync; }
 
+		inline uint32_t GetWidth() const { return m_Data.Width; }
+		inline uint32_t GetHeight() const { return m_Data.Height; }
+
+		inline const Unique<RenderInstance>& GetRenderInstance() const { return m_RenderInstance; }
 		inline GLFWwindow* GetNativeWindow() const { return m_NativeWindow; }
 
 	private:

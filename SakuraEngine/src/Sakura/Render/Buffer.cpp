@@ -1,17 +1,17 @@
 #include "skrpch.h"
-#include "RenderInstance.h"
+#include "Buffer.h"
 #include "RenderContext.h"
 
-#include "RenderingAPI/OpenGL/OpenGLInstance.h"
+#include "RenderingAPI/OpenGL/OpenGLBuffer.h"
 
 namespace Sakura
 {
-	Unique<RenderInstance> RenderInstance::Create(GLFWwindow* windowHandle)
+	Ref<Buffer> Buffer::Create(const BufferDescription& desc)
 	{
 		switch (RenderContext::GetAPI())
 		{
 			case RenderAPI::None:      SKR_CORE_ASSERT(false, "RenderAPI::None is not supported!"); return nullptr;
-			case RenderAPI::OpenGL:    return CreateUnique<OpenGLInstance>(windowHandle);
+			case RenderAPI::OpenGL:    return CreateRef<OpenGLBuffer>(desc);
 		}
 
 		SKR_CORE_ASSERT(false, "Unknown render API!"); return nullptr;

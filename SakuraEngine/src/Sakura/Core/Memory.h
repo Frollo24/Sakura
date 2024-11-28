@@ -19,4 +19,23 @@ namespace Sakura
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
+
+	template <typename T>
+	class RawPointer
+	{
+	public:
+		RawPointer(T* ptr)
+			: m_Ptr(ptr)
+		{
+
+		}
+
+		~RawPointer()
+		{
+			m_Ptr = nullptr;
+		}
+
+	private:
+		T* m_Ptr = nullptr;
+	};
 }
