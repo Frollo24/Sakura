@@ -9,35 +9,7 @@ public:
 	{
 		Ref<RenderDevice> device = Renderer::GetDevice();
 
-		float vertexBuffer[] = {
-			-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-		};
-
-		BufferDescription vertexDescription = {};
-		vertexDescription.Type = BufferType::Vertex;
-		vertexDescription.Size = sizeof(vertexBuffer);
-		vertexDescription.Data = vertexBuffer;
-		m_VertexBuffer = device->CreateBuffer(vertexDescription);
-
-		int indexBuffer[] = {
-			0, 1, 2, 2, 3, 0
-		};
-
-		BufferDescription indexDescription = {};
-		indexDescription.Type = BufferType::Index;
-		indexDescription.Size = sizeof(indexBuffer);
-		indexDescription.Data = indexBuffer;
-		m_IndexBuffer = device->CreateBuffer(indexDescription);
-
-		m_InputBinding = {
-			{ShaderDataType::Float2, "aPosition"},
-			{ShaderDataType::Float3, "aColor"},
-			{ShaderDataType::Float2, "aTexCoord"},
-		};
-		m_InputLayout = InputLayout::Create(std::vector<InputBinding>({ m_InputBinding }));
+		m_Model = CreateRef<Model>("assets/models/bunny.obj");
 
 		TextureDescription textureDesc = {};
 		textureDesc.ImageExtent = { 16, 16, 1 };
@@ -57,16 +29,18 @@ public:
 		m_Texture->SetData(checkerboardPixels.data());
 
 		ShaderSpecs vertexShader{};
-		vertexShader.Filepath = "assets/shaders/TestTriangle.vert";
+		vertexShader.Filepath = "assets/shaders/TestModel.vert";
 		vertexShader.Type = ShaderType::Vertex;
 		ShaderSpecs fragmentShader{};
-		fragmentShader.Filepath = "assets/shaders/TestTriangle.frag";
+		fragmentShader.Filepath = "assets/shaders/TestModel.frag";
 		fragmentShader.Type = ShaderType::Fragment;
 
 		Ref<Shader> shader = device->CreateShader({ vertexShader, fragmentShader });
 
 		PipelineState pipelineState{};
-		pipelineState.InputLayout = m_InputLayout;
+
+		// TODO: research about using a default input layout
+		//pipelineState.InputLayout = m_InputLayout;
 		m_Pipeline = device->CreatePipeline(pipelineState, shader);
 
 		RenderPassDescription renderPassDesc = {};
@@ -119,10 +93,8 @@ public:
 		context->SetViewport(0, 0, fbWidth, fbHeight);
 		context->BindPipeline(m_Pipeline);
 		context->BindTexture(m_Texture, 0);
-		context->SetInputLayout(m_InputLayout);
-		context->BindVertexBuffer(m_VertexBuffer, m_InputBinding);
-		context->BindIndexBuffer(m_IndexBuffer);
-		context->DrawIndexed(6, 1, 0, 0, 0);
+		for (const Mesh& mesh : m_Model->GetMeshes())
+			mesh.Render();
 		context->EndRenderPass();
 
 		Renderer::DrawToScreen();
@@ -135,14 +107,12 @@ public:
 	}
 
 private:
-	Ref<Buffer> m_VertexBuffer = nullptr;
-	Ref<Buffer> m_IndexBuffer = nullptr;
-	Ref<InputLayout> m_InputLayout = nullptr;
-	InputBinding m_InputBinding = {};
+	Ref<Model> m_Model = nullptr;
 	Ref<Texture> m_Texture = nullptr;
 	Ref<Pipeline> m_Pipeline = nullptr;
 	Ref<RenderPass> m_RenderPass = nullptr;
 	Ref<Framebuffer> m_Framebuffer = nullptr;
+
 };
 
 Sakura::Application* Sakura::CreateApplication()

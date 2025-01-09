@@ -9,6 +9,10 @@
 #include "Sakura/Render/RenderInstance.h"
 #include "Sakura/Render/RenderDevice.h"
 #include "Sakura/Render/RenderContext.h"
+#include "Sakura/Render/RenderEntity.h"
+
+// Scene
+#include "Sakura/Scene/Model.h"
 
 // Entry Point
 #ifdef SAKURA_ENTRY_POINT
