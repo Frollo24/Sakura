@@ -2,6 +2,7 @@
 #include "OpenGLShader.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Sakura
 {
@@ -131,5 +132,27 @@ namespace Sakura
 	OpenGLShader::~OpenGLShader()
 	{
 		glDeleteProgram(m_RendererID);
+	}
+
+	GLint OpenGLShader::GetUniformLocation(const std::string& name) const
+	{
+		if (auto locationCache = m_UniformLocationCache.find(name);
+			locationCache != m_UniformLocationCache.end()) return locationCache->second;
+
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		m_UniformLocationCache[name] = location;
+		return location;
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) const
+	{
+		GLint location = GetUniformLocation(name);
+		glProgramUniform4f(m_RendererID, location, value.x, value.y, value.z, value.w);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix) const
+	{
+		GLint location = GetUniformLocation(name);
+		glProgramUniformMatrix4fv(m_RendererID, location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

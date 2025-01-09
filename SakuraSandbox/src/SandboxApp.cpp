@@ -1,5 +1,6 @@
 #define SAKURA_ENTRY_POINT
 #include <SakuraEngine.h>
+#include <glm/gtc/matrix_transform.hpp>
 using namespace Sakura;
 
 class SandboxApp : public Sakura::Application
@@ -88,10 +89,16 @@ public:
 		uint32_t fbWidth = m_Framebuffer->GetDescription().Width;
 		uint32_t fbHeight = m_Framebuffer->GetDescription().Height;
 
+		glm::mat4 modelViewProj = glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 0.3f, 50.0f) *
+			glm::lookAt(glm::vec3(0.0f, -1.5f, 5.0f), glm::vec3(0.0f, -1.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(180.f), glm::vec3(0.0f, 0.0f, 1.0f));
+
 		Ref<RenderContext> context = Renderer::GetContext();
 		context->BeginRenderPass(m_RenderPass);
 		context->SetViewport(0, 0, fbWidth, fbHeight);
 		context->BindPipeline(m_Pipeline);
+		m_Pipeline->GetShader()->SetMat4("u_ModelViewProj", modelViewProj);
+		m_Pipeline->GetShader()->SetFloat4("u_LightDir", glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		context->BindTexture(m_Texture, 0);
 		for (const Mesh& mesh : m_Model->GetMeshes())
 			mesh.Render();

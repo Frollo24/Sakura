@@ -2,6 +2,10 @@
 
 #include "Sakura/Core/Base.h"
 
+#include <glm/glm.hpp>
+
+typedef int GLint;
+
 namespace Sakura
 {
 	enum class ShaderType
@@ -24,6 +28,9 @@ namespace Sakura
 	{
 	public:
 		virtual ~Shader() = default;
+
+		virtual void SetFloat4(const std::string& name, const glm::vec4& value) const = 0;
+		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const = 0;
 
 		static Ref<Shader> Create(const std::vector<ShaderSpecs>& shaderFiles);
 	};
