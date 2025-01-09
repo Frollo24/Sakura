@@ -13,7 +13,8 @@ project "SakuraEngine"
 	{
 		"src/**.h",
 		"src/**.cpp",
-
+		"vendor/stb_image/stb_image.h",
+		"vendor/stb_image/stb_image.cpp"
 	}
 
 	includedirs
@@ -21,14 +22,30 @@ project "SakuraEngine"
 		"src",
 		"vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.assimp}"
 	}
+
+	filter "configurations:Debug"
+		libdirs { "vendor/assimp/bin/Debug/" }
+	filter "configurations:not Debug"
+		libdirs { "vendor/assimp/bin/Release/" }
+	filter {}
 
 	links
 	{
 		"GLFW",
-		"Glad"
+		"Glad",
 	}
+
+	filter "configurations:Debug"
+		links { "assimp-vc143-mtd" }
+	filter "configurations:not Debug"
+		links { "assimp-vc143-mt" }
+	filter {}
+	
 
 	filter "system:windows"
 		staticruntime "On"
